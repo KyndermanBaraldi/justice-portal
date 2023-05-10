@@ -1,0 +1,37 @@
+.menuitems {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  gap: 2rem;
+}
+
+.menu-item {
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu_links {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.menu_links:hover {
+  background-color: #1888ff;
+  border-radius: 4px;
+  transition: all 0.2s ease-out;
+}
+
+.dropdown_menu {
+  background: var(--mainColor);
+  border-radius: 4px;
+  position: absolute;
+  top: 40px;
+  list-style: none;
+  text-align: start;
+}
+
+.dropdown_menu li {
+  margin: 0 0 1rem 0;
+}

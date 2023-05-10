@@ -1,0 +1,2 @@
+$ docker build -t justice-portal-api .
+$ docker run -p 5001:5001 -it --rm --name api justice-portal-api

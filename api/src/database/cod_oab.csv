@@ -1,0 +1,52 @@
+﻿Códigos;Natureza da Ação;Tipo
+101;Procedimento Ordinário / Comum (Residual);Cível
+102;Procedimento Sumário (Nomeações Realizadas até 18/03/2016);Cível
+103;Execução de Título Extrajudicial e Judicial;Cível
+104;Declaratórias;Cível
+105;Embargos de Terceiros;Cível
+106;Procedimento Especial - Jurisdição Voluntária ou Contenciosa;Cível
+107;Consignação em Pagamento;Cível
+108;Possessórias (Usocapião);Cível
+109;Nunciação de Obra Nova;Cível
+110;Anulação e Retificação de Registro;Cível
+111;Despejo;Cível
+112;Revisional de Aluguel;Cível
+113;Mandado de Segurança;Cível
+114;Processos Cautelares;Cível
+115;Curador Especial;Cível
+116;Juizado Especial Cível e da Fazenda Pública;Cível
+117;Medida Protetiva à mulher vítima de violência doméstica;Cível
+209;Pedido de Alvará;Cível
+200;Cumprimento de Sentença - Alimentos;Família e Sucessões
+201;Inventários e Arrolamentos;Família e Sucessões
+202;Separação, Divórcio, Conv. em Divórcio Consensual e Reconhecimento e Dissolução de União Estável;Família e Sucessões
+203;Separação, Divórcio, Conv. em Divórcio Litigioso e Reconhecimento e Dissolução de União Estável;Família e Sucessões
+204;Anulação de Casamento;Família e Sucessões
+205;Investigação de Paternidade;Família e Sucessões
+206;Alimentos (Processo de Conhecimento);Família e Sucessões
+207;Tutela e Curatela;Família e Sucessões
+208;Emancipação Judicial Outorgada Judic. e Consentimento;Família e Sucessões
+209;Pedido de Alvará;Família e Sucessões
+210;Modificação ou Regulamento de Guarda / Visitas;Família e Sucessões
+114;Processo Cautelar;Família e Sucessões
+115;Curador Especial;Família e Sucessões
+301;Rito Ordinário;Criminal
+302;Rito Sumário;Criminal
+315;Rito Sumaríssimo;Criminal
+303;Defesa Júri até Pronúncia;Criminal
+304;Defesa Júri da Pronúncia ao Final do Processo;Criminal
+306;Advogado do Querelante (Queixa-crime Subsidiária da Pública);Criminal
+309;Pedido de Reabilitação Criminal;Criminal
+310;Execução Penal;Criminal
+316;Violência Doméstica;Criminal
+317;Depoimento Especial pela vítima;Criminal
+501;Qualquer Procedimento na Área Cível;Infância e Juventude
+502;Qualquer Procedimento na Área Criminal;Infância e Juventude
+601;Carta Precatória;Carta Precatória
+701;Plantão;Plantão
+801;Atuação em um dia não útil;Plantão em dias não úteis
+802;Atuação em dois dias não úteis Consecutivos;Plantão em dias não úteis
+111;despejo por falta de pagamento (art. 62, inc. |, da lei de locações);cível
+501;civil;Infância
+502;crime;infância
+210;Guarda;família

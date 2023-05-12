@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { usePathname } from "next/navigation";
-import { checkIsPublicRoute } from '@/context/auth/utils';
+import { checkIsPublicRoute } from '@/routes/app-routes';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Head from 'next/head';

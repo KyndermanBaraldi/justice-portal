@@ -1,9 +1,11 @@
 .menu {
   background-color: var(--mainColor);
   color: var(--textColor);
+  height: 60px;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .nav_links {

@@ -77,6 +77,8 @@ class Lawsuit:
                     or "esta sentença" in detail
                     or "Diante do exposto, e do mais que dos autos consta" in detail
                     or "dou o feito por extinto" in detail
+                    or "JULGO" in detail
+                    or "PROCEDENTE" in detail
                 ):
                     if movement == "Remetido ao DJE":
                         verdict["publicação"] = date_steps[i]

@@ -28,7 +28,7 @@ class Web_scraping_tax:
     def __init__(self):
         self.BASE_URL = "https://www.tjsp.jus.br/PrimeiraInstancia/CalculosJudiciais/Comunicado?codigoComunicado=25988&pagina=1"
         self.FILE_URL = self.get_url()
-        self.response = self.get_data()
+        self.json = self.get_data()
 
     def get_url(self) -> str:
         html = requests.get(self.BASE_URL).content
@@ -38,7 +38,33 @@ class Web_scraping_tax:
             "href"
         )
 
-    def get_data(self) -> pd.DataFrame:
+    def create_json(self, df: pd.DataFrame) -> dict:
+        json_data = []
+        for _, row in df.iterrows():
+            year = row["year"]
+            month = row["month"]
+            unit = row["unit"]
+            rate = row["rate"]
+            ufesp = row["ufesp"]
+
+            year_dict = next((item for item in json_data if year in item), {})
+            month_list = year_dict.get(year, [])
+            month_dict = next((item for item in month_list if month in item), {})
+            day_data = {"unit": unit, "ufesp": ufesp, "rate": rate}
+
+            if not month_dict:
+                month_dict = {month: day_data}
+                if not year_dict:
+                    year_dict = {year: [month_dict]}
+                    json_data.append(year_dict)
+                else:
+                    month_list.append(month_dict)
+            else:
+                month_dict.update({month: day_data})
+
+        return json_data
+
+    def get_data(self) -> dict:
         df = pd.read_excel(
             self.FILE_URL, sheet_name="ÍNDICES", usecols="B,X,Z,AI", skiprows=3
         )
@@ -49,9 +75,10 @@ class Web_scraping_tax:
         df[["ufesp", "rate"]] = df[["ufesp", "rate"]].replace({",": "."}, regex=True)
 
         df["year"] = df["initial_date"].dt.year
-        df["mounth"] = df["initial_date"].dt.month
+        df["month"] = df["initial_date"].dt.month
 
         df["final_date"] = df["initial_date"].apply(set_last_day).astype("str")
         df["initial_date"] = df["initial_date"].astype("str")
 
-        return df.to_json(orient="records")
+        # return df.to_json(orient="records")
+        return self.create_json(df)

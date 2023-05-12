@@ -1,19 +1,25 @@
 .menuitems {
   list-style: none;
   display: flex;
+
   justify-content: space-between;
   text-align: center;
   gap: 2rem;
 }
 
-.menu-item {
-  align-items: center;
+.menuitem {
   cursor: pointer;
+  height: 100%;
 }
 
 .menu_links {
   color: white;
   text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.menu_dropdown {
+  color: white;
   padding: 0.5rem 1rem;
 }
 
@@ -27,11 +33,17 @@
   background: var(--mainColor);
   border-radius: 4px;
   position: absolute;
-  top: 40px;
+  top: 55px;
   list-style: none;
   text-align: start;
+  display: none;
 }
 
 .dropdown_menu li {
   margin: 0 0 1rem 0;
+  width: 100%;
+}
+
+.menuitem:hover .dropdown_menu {
+  display: block;
 }

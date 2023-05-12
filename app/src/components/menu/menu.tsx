@@ -1,10 +1,10 @@
 import styles from './menu.module.css';
-import { useState } from 'react';
 import Link from 'next/link';
 
 type MenuItem = {
   title: string;
   path?: string;
+
   dropdown?: MenuItem[];
 };
 
@@ -13,34 +13,31 @@ type Props = {
 };
 
 const Menu: React.FC<Props> = ({ menuItems }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
   const renderMenuItem = (menuItem: MenuItem) => {
     return (
-      <>
-        { menuItem.path && (
-          <li className={styles.menuitem} key={menuItem.title} >
-            <Link className={styles.menu_links} href={menuItem.path}>
-              {menuItem.title}
-            </Link>
-          </li>
-        ) }
+      
+          <li key={menuItem.title} className={styles.menuitem} >
 
-        { !menuItem.path && (
-          <li className={styles.menuitem} key={menuItem.title} onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
-            <span>{menuItem.title}</span>
-            {menuItem.dropdown && isOpen && (
+            { menuItem.path ? (
+              <Link className={styles.menu_links} href={menuItem.path}>
+                {menuItem.title}
+              </Link>
+            ) : (
+              <span className={styles.menu_dropdown} >
+                {menuItem.title}
+              </span>
+
+            )}
+
+            {menuItem.dropdown && (
               <ul className={styles.dropdown_menu}>
                 {menuItem.dropdown.map((subMenuItem) => renderMenuItem(subMenuItem))}
               </ul>
-          )}
-        </li>)}
-      </>
-    );
+            )}
+    
+          </li>);
+       
+    
   };
 
   return (

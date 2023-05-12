@@ -102,7 +102,7 @@ export default function CertidaoOAB() {
           <p><strong>Data do trânsito em julgado:</strong> {cert?.data_transito ? cert.data_transito : '* (Formato DD/MM/AAAA)'}</p>
         </div>
         <div className="atos">
-          <p><strong>Atos praticados::</strong></p>
+          <p><strong>Atos praticados:</strong></p>
           <p>({(cert?.atos_praticados?.includes('1')) ? 'X' : ' '}) 1-  Todos os atos do processo</p>
           <p>({(cert?.atos_praticados?.includes('2')) ? 'X' : ' '}) 2-  Atuação parcial</p>
           <p>({(cert?.atos_praticados?.includes('4')) ? 'X' : ' '}) 4-  Recurso</p>

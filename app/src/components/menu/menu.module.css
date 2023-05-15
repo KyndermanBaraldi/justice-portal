@@ -37,6 +37,7 @@
   list-style: none;
   text-align: start;
   display: none;
+  z-index: 100;
 }
 
 .dropdown_menu li {

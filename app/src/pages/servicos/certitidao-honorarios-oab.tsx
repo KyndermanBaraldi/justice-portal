@@ -46,7 +46,7 @@ export default function CertidaoOAB() {
       body: formData
     };
 
-    const response = await fetch('http://168.75.76.91:5001/certidao-oab', options)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}certidao-oab`, options)
     const data = await response.json()
     setCert(data)
     if (inputfileRef.current) {

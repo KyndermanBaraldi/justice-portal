@@ -13,6 +13,9 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "https://justice-portal.vercel.app",
+    "https://justice-portal-git-main-kyndermanbaraldi.vercel.app/",
+    "https://justice-portal-5y65cnvya-kyndermanbaraldi.vercel.app/",
 ]
 
 app.add_middleware(

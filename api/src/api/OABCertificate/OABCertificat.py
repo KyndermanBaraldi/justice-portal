@@ -12,7 +12,9 @@ from Services.defensoria_oab.defensoria_oab import lawsuitClassifier
 
 class OABCertificate:
     def __init__(self, pdf_stream) -> None:
-        self.text = Pdf2Str(pdf_stream).extractText()
+        self.text = Pdf2Str(pdf_stream).extractText(
+            text="Indicação", method="googleVision"
+        )
         self.data = CertidaoOAB()
         self.extractVars()
 

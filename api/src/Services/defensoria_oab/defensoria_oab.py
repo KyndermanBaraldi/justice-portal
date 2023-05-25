@@ -8,7 +8,7 @@ import os
 
 
 class lawsuitClassifier:
-    MODEL_FILE_PATH = "/home/kynderman/dev/justice_portal/api/src/database/model.joblib"
+    MODEL_FILE_PATH = "./src/database/model.joblib"
 
     def __init__(self):
         self.vectorizer = CountVectorizer()

@@ -1,7 +1,6 @@
 import re
 from datetime import date as Date
 
-from fastapi import HTTPException
 from api.Lawsuit.Lawsuit import Lawsuit
 
 from api.OABCertificate.models import CertidaoOAB

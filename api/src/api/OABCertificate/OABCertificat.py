@@ -87,20 +87,25 @@ class OABCertificate:
 
         self.data.assunto = "".join(subject).replace("\n", " ")
 
+        foro = re.search(r"foro de (.*)", self.text, flags=re.IGNORECASE)
+        if foro:
+            vara = foro.group(1).split("/")
+            self.data.juizo = f"{vara[1].strip()} do Foro de {vara[0].strip()} da Comarca de {vara[0].strip()}"
         beneficiario = ""
         names = re.findall(
-            "dpesp\: ([\S\s]*?)\\nendereço\:", self.text, flags=re.IGNORECASE
+            "dpesp\:([\s\S]*?)\\nNome\:([\s\S]*?)\\n",
+            self.text,
+            flags=re.IGNORECASE,
         )
         for name in names:
-            name = re.sub(r"[0-9]+", "", name)
+            name = re.sub(r"[0-9]+", "", " ".join(name))
 
             name = (
                 name.replace("\n", "")
-                .replace("- Autor/a", "")
-                .replace("Réu", "")
+                .replace("- ", "")
+                .replace("Autor/a", "")
+                .replace("Réu/Ré", "")
                 .replace("Nome:", "")
-                .replace("CPF:", "")
-                .replace("RG:", "")
             )
             beneficiario += name.strip() + ", "
 
@@ -110,9 +115,12 @@ class OABCertificate:
         self.data.reu = "réu" in self.text.lower()
 
         lawyer = re.findall(
-            "oab / nome\: ([\S\s]*?)\\n", self.text, flags=re.IGNORECASE
+            "OAB\s*\/\s*Nome\s*:\s*([\S\s]*?)\\n", self.text, flags=re.IGNORECASE
         )
-        self.data.oab, self.data.advogado = lawyer[0].split(" / ")
+
+        self.data.oab, self.data.advogado = lawyer[0].split("/")
+        self.data.oab = self.data.oab.strip()
+        self.data.advogado = self.data.advogado.strip()
 
         self.data.indicacao = re.search(
             r"[0-9]{6}[ ][0-9]{6}[ ][0-9]{6}[ ][0-9]{5}", self.text

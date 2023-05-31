@@ -24,11 +24,9 @@ class OABCertificate:
         return self.data.dict()
 
     def checkLawSuit(self, process_number: str):
-        self.data.vara = 1458
         try:
             processo = Lawsuit(process_number).lawsuit
             self.data.data_transito = processo.sentenca["data_transito"]
-            self.data.juizo = f"{processo.vara} do Foro de {processo.foro} da Comarca de {processo.foro}"
             self.data.partes = processo.partes
             if not self.data.assunto:
                 self.data.assunto = processo.assunto
@@ -61,7 +59,9 @@ class OABCertificate:
                 if encontrado:
                     sentenca["complemento"] = encontrado.group()
 
-            self.data.sentenca = sentenca
+            self.data.sentencacod = sentenca["cod"]
+            self.data.sentencadata = sentenca["data"]
+            self.data.sentencacomplemento = sentenca.get("complemento", None)
 
         except:
             ...
@@ -86,10 +86,6 @@ class OABCertificate:
 
         self.data.assunto = "".join(subject).replace("\n", " ")
 
-        foro = re.search(r"foro de (.*)", self.text, flags=re.IGNORECASE)
-        if foro:
-            vara = foro.group(1).split("/")
-            self.data.juizo = f"{vara[1].strip()} do Foro de {vara[0].strip()} da Comarca de {vara[0].strip()}"
         beneficiario = ""
         names = re.findall(
             "dpesp\:([\s\S]*?)\\nNome\:([\s\S]*?)\\n",
@@ -110,8 +106,8 @@ class OABCertificate:
 
         self.data.beneficiarios = beneficiario[:-2]
 
-        self.data.autor = "autor" in self.text.lower()
-        self.data.reu = "réu" in self.text.lower()
+        self.data.autor = str("autor" in self.text.lower()).lower()
+        self.data.reu = str("réu" in self.text.lower()).lower()
 
         lawyer = re.findall(
             "OAB\s*\/\s*Nome\s*:\s*([\S\s]*?)\\n", self.text, flags=re.IGNORECASE
@@ -121,9 +117,12 @@ class OABCertificate:
         self.data.oab = self.data.oab.strip()
         self.data.advogado = self.data.advogado.strip()
 
-        self.data.indicacao = re.search(
-            r"[0-9]{6}[ ][0-9]{6}[ ][0-9]{6}[ ][0-9]{5}", self.text
-        ).group()
+        try:
+            self.data.indicacao = re.search(
+                r"[0-9]{6}[ ][0-9]{6}[ ][0-9]{6}[ ][0-9]{5}", self.text
+            ).group()
+        except:
+            self.data.indicacao = re.search(r"[0-9]{23}", self.text).group()
 
         self.checkLawSuit(self.data.processo)
 

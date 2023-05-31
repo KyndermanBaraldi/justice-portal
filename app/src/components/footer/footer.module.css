@@ -1,0 +1,31 @@
+.footer {
+  background: var(--mainColor);
+  padding: 20px;
+  text-align: center;
+  color: var(--textColor);
+  font-size: 12px;
+  font-weight: bold;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer_content {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
+}
+
+.footer_content a {
+  color: var(--textColor);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer_content_items {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}

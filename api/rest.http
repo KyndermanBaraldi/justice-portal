@@ -1,0 +1,6 @@
+POST https://www.tjsp.jus.br/AutoComplete/ListarMunicipios HTTP/1.1
+content-type: application/json
+
+{
+"texto": "tremembe"
+}

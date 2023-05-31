@@ -1,8 +1,13 @@
 export const APP_ROUTES = {
     private: {
         servicos: {
+            certificar_ciclo: '/servicos/certificar-ciclo',
             certificar_prazo: '/servicos/certificar-prazo',
-            certitidao_honorarios_oab: '/servicos/certitidao-honorarios-oab',
+            certificar_transito: '/servicos/certificar-transito',
+            certitidao_honorarios_oab: {
+              index: '/servicos/certitidao-honorarios-oab',
+              imprimir: '/servicos/certitidao-honorarios-oab/imprimir',
+            }
         }
         
     },
@@ -10,7 +15,7 @@ export const APP_ROUTES = {
         home: '/',
         login: '/login',
         cadastro: '/cadastro',
-        sobre: '/sobre',
+        
         tips: {
             codigo_oab: '/tips/codigo-oab',
             zonas: '/tips/zonas',
@@ -30,13 +35,21 @@ export const menuItems = [
     {
       title: 'Certificador',
       dropdown: [
+        {
+          title: 'Certidão de Honorários OAB',
+          path: APP_ROUTES.private.servicos.certitidao_honorarios_oab.index,
+        },
+        {
+          title: 'Certificar ciclo',
+          path: APP_ROUTES.private.servicos.certificar_ciclo,
+        },
         { 
           title: 'Certificar prazo',
           path: APP_ROUTES.private.servicos.certificar_prazo,
         },
-        {
-          title: 'Certidão de Honorários OAB',
-          path: APP_ROUTES.private.servicos.certitidao_honorarios_oab,
+        { 
+          title: 'Certificar trânsito',
+          path: APP_ROUTES.private.servicos.certificar_transito,
         },
       ],
     },
@@ -62,10 +75,6 @@ export const menuItems = [
             },
         ],
       },
-    {
-      title: 'Sobre',
-      path: APP_ROUTES.public.sobre,
-    },
   ];
 
 export function checkIsPublicRoute(rota: string): boolean {

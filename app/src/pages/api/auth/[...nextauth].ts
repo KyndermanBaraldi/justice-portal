@@ -1,7 +1,12 @@
 import { APP_ROUTES } from "@/routes/app-routes";
 import { firebaseSignIn } from "@/services/firebase";
+import { DefaultUser } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialProvider from "next-auth/providers/credentials";
+
+interface MyUser extends DefaultUser {
+  token: string;
+}
 
 export default NextAuth({
     providers: [
@@ -23,12 +28,13 @@ export default NextAuth({
             }
   
             if (user) {
+              const token = await user.getIdToken();
                return {
                     id: user.uid,
                     email: user.email,
                     name: user.displayName,
                     image: user.photoURL,
-                    token: user.refreshToken,
+                    token: token,
                };
             } else {
               return null;
@@ -42,7 +48,8 @@ export default NextAuth({
     callbacks: {
       jwt: async ({ token, user }) => {
         if (user) {
-          token.id = user.id;
+          token.id=user.id;
+          token.token=(user as MyUser).token;
         }
   
         return token;
@@ -54,6 +61,7 @@ export default NextAuth({
                 ...session,
                 user: {
                     id: token.id,
+                    token: token.token,
                     ...session.user
                 }
             }

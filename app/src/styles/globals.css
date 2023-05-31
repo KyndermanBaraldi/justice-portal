@@ -1,11 +1,11 @@
 :root {
-  --mainColor: #29335c;
+  --mainColor: blueviolet;
   --mainColorLight: #5767aa;
   --mainColorDark: #000033;
 
   --backgroundColor: #f5f5f5;
   --backgroundColorLight: #fff;
-  --backgroundColorDark: #000;
+  --backgroundColorDark: #171717;
 
   --inputbackgroundColor: #e5e5e5;
 

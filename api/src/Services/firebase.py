@@ -1,80 +1,100 @@
-import json
-import requests as request
+import os
 from dotenv import load_dotenv
+from fastapi import HTTPException
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, auth
 from firebase_admin import db
 
-import os
 
+class FirebaseClient:
+    def __init__(self):
+        try:
+            self.app = firebase_admin.get_app()
 
-def save_data_to_firebase_admin(child: str, data: dict):
-    load_dotenv()
-    cred = credentials.Certificate(
-        {
-            "type": os.getenv("TYPE"),
-            "project_id": os.getenv("PROJECT_ID"),
-            "private_key_id": os.getenv("PRIVATE_KEY_ID"),
-            "private_key": os.getenv("PRIVATE_KEY").replace("\\n", "\n"),
-            "client_email": os.getenv("CLIENT_EMAIL"),
-            "client_id": os.getenv("CLIENT_ID"),
-            "auth_uri": os.getenv("AUTH_URI"),
-            "token_uri": os.getenv("TOKEN_URI"),
-            "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER"),
-            "client_x509_cert_url": os.getenv("CLIENT_URL"),
-            "universe_domain": os.getenv("UNIVERSE_DOMAIN"),
-        }
-    )
+        except:
+            load_dotenv()
+            cred = credentials.Certificate(
+                {
+                    "type": os.getenv("TYPE"),
+                    "project_id": os.getenv("PROJECT_ID"),
+                    "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+                    "private_key": os.getenv("PRIVATE_KEY").replace("\\n", "\n"),
+                    "client_email": os.getenv("CLIENT_EMAIL"),
+                    "client_id": os.getenv("CLIENT_ID"),
+                    "auth_uri": os.getenv("AUTH_URI"),
+                    "token_uri": os.getenv("TOKEN_URI"),
+                    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER"),
+                    "client_x509_cert_url": os.getenv("CLIENT_URL"),
+                    "universe_domain": os.getenv("UNIVERSE_DOMAIN"),
+                }
+            )
 
-    firebase_admin.initialize_app(cred, {"databaseURL": os.getenv("DATABASE_URL")})
+            self.app = firebase_admin.initialize_app(
+                cred, {"databaseURL": os.getenv("DATABASE_URL")}
+            )
 
-    ref = db.reference(child)
+    def create_user(self, email, password, name):
+        try:
+            user = auth.create_user(
+                email=email,
+                password=password,
+                display_name=name,
+            )
 
-    for items in data:
-        for year, months in items.items():
-            for item in months:
-                for month, month_data in item.items():
-                    ref.child(str(year)).child(str(month)).set(month_data)
+            return user.uid
+        except firebase_admin.auth.EmailAlreadyExistsError:
+            raise HTTPException(
+                status_code=400, detail="O email já está sendo usado por outro usuário."
+            )
+        except firebase_admin.auth.InvalidEmailError:
+            raise HTTPException(status_code=400, detail="O email fornecido é inválido.")
+        except firebase_admin.auth.InvalidPasswordError:
+            raise HTTPException(status_code=400, detail="A senha fornecida é inválida.")
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail="Erro ao criar usuário: " + str(e)
+            )
 
+    def get_current_user(self, token: str):
+        try:
+            decoded_token = auth.verify_id_token(token)
+            uid = decoded_token["uid"]
+            return uid
+        except auth.InvalidIdTokenError:
+            raise HTTPException(
+                status_code=401, detail="Token de autenticação inválido"
+            )
+        except auth.ExpiredIdTokenError:
+            raise HTTPException(
+                status_code=401, detail="Token de autenticação expirado"
+            )
 
-def get_tax(year: str, month: str):
-    load_dotenv()
-    cred = credentials.Certificate(
-        {
-            "type": os.getenv("TYPE"),
-            "project_id": os.getenv("PROJECT_ID"),
-            "private_key_id": os.getenv("PRIVATE_KEY_ID"),
-            "private_key": os.getenv("PRIVATE_KEY").replace("\\n", "\n"),
-            "client_email": os.getenv("CLIENT_EMAIL"),
-            "client_id": os.getenv("CLIENT_ID"),
-            "auth_uri": os.getenv("AUTH_URI"),
-            "token_uri": os.getenv("TOKEN_URI"),
-            "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER"),
-            "client_x509_cert_url": os.getenv("CLIENT_URL"),
-            "universe_domain": os.getenv("UNIVERSE_DOMAIN"),
-        }
-    )
+    def enviar_email_redefinicao_senha(self, email):
+        try:
+            # Solicite a redefinição de senha para o e-mail fornecido
+            link = auth.generate_password_reset_link(email)
+            print(link)
 
-    firebase_admin.initialize_app(cred, {"databaseURL": os.getenv("DATABASE_URL")})
+        except auth.AuthError as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Erro ao enviar o e-mail de redefinição de senha:" + str(e),
+            )
 
-    ref = db.reference("indices")
+    def save_data(self, child: str, data: dict):
+        try:
+            ref = db.reference(child)
+            ref.set(data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail="Erro ao salvar dados: " + str(e)
+            )
 
-    return ref.child(year).child(month).get()
-
-
-def save_json_to_firebase_restapi(child: str, data: str):
-    load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
-
-    firebase_url = os.getenv("DATABASE_URL")
-    firebase_database_url = f"{firebase_url}/{child}.json"
-
-    # Configura os cabeçalhos da solicitação HTTP
-    headers = {"Content-Type": "application/json"}
-
-    # Envia a solicitação HTTP POST para o Firebase Realtime Database
-    response = request.post(firebase_database_url, headers=headers, data=data)
-
-    if response.status_code == 200:
-        print("JSON gravado no Firebase Realtime Database com sucesso.")
-    else:
-        print("Ocorreu um erro ao gravar o JSON no Firebase Realtime Database.")
+    def get_data(self, child: str):
+        try:
+            ref = db.reference(child)
+            return ref.get()
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail="Erro ao obter dados: " + str(e)
+            )

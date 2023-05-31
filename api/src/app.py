@@ -1,21 +1,22 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, HTMLResponse
-
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import UploadFile
 from api.Lawsuit.models import Processo
 from api.OABCertificate.models import CertidaoOAB
 from api.Lawsuit.Lawsuit import Lawsuit
 from api.OABCertificate.OABCertificat import OABCertificate
+from api.Tax.Tax import iTax, Tax
+from api.WorkdayCounter.WorkdayCounter import IWorkdayCounter, WorkdayCounter
+from api.users.users import IUser, Users
 
 
 app = FastAPI()
+security = HTTPBearer()
 
 origins = [
-    "http://localhost:3000",
-    "https://justice-portal.vercel.app",
-    "https://justice-portal-git-main-kyndermanbaraldi.vercel.app/",
-    "https://justice-portal-5y65cnvya-kyndermanbaraldi.vercel.app/",
+    "*",
 ]
 
 app.add_middleware(
@@ -28,7 +29,7 @@ app.add_middleware(
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root():
+async def inicio():
     return """
     <html>
         <head>
@@ -42,11 +43,46 @@ async def root():
 
 
 @app.get("/processo/{number}", response_model=Processo)
-async def get_lawsuit(number: str):
+async def processo(number: str):
     return JSONResponse(content=Lawsuit(number).json())
 
 
 @app.post("/certidao-oab", response_model=CertidaoOAB)
-async def oabcertificate(pdf_file: UploadFile):
+async def CertidaoOAB(pdf_file: UploadFile):
     pdf_steam = await pdf_file.read()
     return JSONResponse(content=OABCertificate(pdf_steam).json())
+
+
+@app.get("/prazo", response_model=IWorkdayCounter)
+async def diasUteis(inicio: str, dias: int):
+    return JSONResponse(content=WorkdayCounter(inicio, dias).json())
+
+
+@app.get("/taxa", response_model=iTax)
+async def taxa(ano: int = None, mes: int = None):
+    return JSONResponse(content=Tax(ano, mes).json())
+
+
+@app.post("/usuario/cadastrar")
+async def criar_usuario(usuario: IUser):
+    user = Users().create_user(usuario)
+    return JSONResponse(content=user)
+
+
+@app.get("/usuario/me", response_model=IUser)
+async def get_user(token: str = Depends(security)):
+    if token.scheme != "Bearer":
+        raise HTTPException(status_code=401, detail="Esquema de autenticação inválido")
+    token = token.credentials
+
+    user = Users().get_current_user(token)
+    return JSONResponse(content=user)
+
+
+@app.get("/usuario/cartorio")
+async def get_user(token: str = Depends(security)):
+    if token.scheme != "Bearer":
+        raise HTTPException(status_code=401, detail="Esquema de autenticação inválido")
+    token = token.credentials
+    cartorio = Users().get_cartorio(token)
+    return JSONResponse(content=cartorio)

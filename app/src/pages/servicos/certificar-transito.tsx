@@ -31,7 +31,7 @@ const meses = [
   "Dezembro"
 ];
 
-export default function CertificarPrazo() {
+export default function CertificarTransito() {
   
   const { data } = useSession()
   const { user } = data || { user: null }
@@ -50,9 +50,7 @@ export default function CertificarPrazo() {
   }
 
   return (
-
     <div>
-      
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="inicio">Data Inicial:</label>
@@ -73,16 +71,10 @@ export default function CertificarPrazo() {
 
         <h1>Certidão de Trânsito em Julgado</h1>
         <p>
-          { `Certifico e dou fé que a r. sentença de fls. ${getValues('fls')} transitou em julgado` }
-        </p>
-        <p>
-          { `em ${prazo?.end_date}. Certifico ainda que o processo foi baixado definitivamente no` }
-        </p>
-        <p>
-          { `sistema. Nada Mais. Tremembe, ${dia} de ${mes} de ${ano}. Eu, ___,` }
-        </p>
-        <p>
-          { `${user?.name}, Escrevente Técnico Judiciário.` }
+          { `Certifico e dou fé que a r. sentença de fls. ${getValues('fls')} transitou em julgado
+             em ${prazo?.end_date}. Certifico ainda que o processo foi baixado definitivamente no
+             sistema. Nada Mais. Tremembe, ${dia} de ${mes} de ${ano}. Eu, ___,
+             ${user?.name}, Escrevente Técnico Judiciário.` }
         </p>
       </section>
     </div>

@@ -21,6 +21,7 @@
 .menu_dropdown {
   color: white;
   padding: 0.5rem 1rem;
+  z-index: 100;
 }
 
 .menu_links:hover {

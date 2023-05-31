@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { JsxElement } from "typescript";
+import { ReactElement, useState } from "react";
 
 /*
 hook que recebe uma lista de components e retorna o componente atual, 
@@ -8,9 +7,10 @@ para o anterior e uma variável que indica se o componente atual é o
 último da lista.
 */
 
-const useSteps = (steps: Array<JsxElement>) => {
+const useSteps = (steps: ReactElement[]) => {
     const [index, setIndex] = useState(0);
     const isLast = (index === steps.length - 1);
+    const isFirst = (index === 0);
     const currentStep = steps[index];
 
     const nextStep = () => {
@@ -25,7 +25,7 @@ const useSteps = (steps: Array<JsxElement>) => {
         }
     };
 
-    return { currentStep, index, nextStep, prevStep, isLast };
+    return { currentStep, index, nextStep, prevStep, isLast, isFirst };
 }
 
 export default useSteps;

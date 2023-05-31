@@ -6,7 +6,8 @@ import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Head from 'next/head';
 import PrivateRoutes from '@/components/privateRoutes/privateRoutes';
-import Navbar from '@/components/navbar/navbar';
+import Header from '@/components/header/header';
+import Footer from '@/components/footer/footer';
 
 export default function App({
   Component,
@@ -24,10 +25,12 @@ export default function App({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <Navbar />
+      <Header />
 
       {isPublicRoute && <Component {...pageProps} />}
       {!isPublicRoute && <PrivateRoutes><Component {...pageProps} /> </PrivateRoutes>}
+
+      <Footer />
     </SessionProvider>
   )
 }

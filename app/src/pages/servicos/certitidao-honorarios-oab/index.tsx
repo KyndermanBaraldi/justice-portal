@@ -50,17 +50,19 @@ export default function CertidaoOAB() {
 
       const formData  = new FormData();
       formData.append('pdf_file', inputfile);
-
+      
       const options = {
         method: 'POST',
         body: formData
       };
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}certidao-oab`, options)
+      
       const data = await response.json()
       
-      methods.reset(data)
       console.log(data)
+      methods.reset(data)
+      
     } catch (error) {
       toast.error('Erro ao ler arquivo', {
         position: toast.POSITION.TOP_CENTER,

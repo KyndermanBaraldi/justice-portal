@@ -2,32 +2,9 @@
   display: flex;
   position: relative;
   align-items: center;
+  overflow: hidden;
 }
 
-.prevButton,
-.nextButton {
-  background-color: #333;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 16px;
-}
-
-.nextButton {
-  position: absolute;
-  bottom: 1rem;
-  right: 3.5rem;
-  z-index: 1;
-}
-
-.prevButton {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 1;
-}
 .imageContainer {
   position: relative;
   overflow: hidden;
@@ -47,4 +24,12 @@
   height: 100%;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+}
+
+.image {
+  position: absolute;
+  bottom: 0px;
+  right: 50%;
+  width: 230px;
+  height: 330px;
 }

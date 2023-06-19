@@ -19,10 +19,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, interval = 3000, width = 30
     setActiveIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
 
-  const handlePrevious = () => {
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-  };
-
+ 
   useEffect(() => {
 
     const timer = setInterval(() => {
@@ -36,9 +33,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, interval = 3000, width = 30
 
   return (
     <div className={styles.carousel}>
-      <button className={styles.prevButton} onClick={handlePrevious}>
-        Previous
-      </button>
+      
       <div className={styles.imageContainer}
         style={{
           width: width,
@@ -56,9 +51,13 @@ const Carousel: React.FC<CarouselProps> = ({ images, interval = 3000, width = 30
           />
         ))}
       </div>
-      <button className={styles.nextButton} onClick={handleNext}>
-        Next
-      </button>
+      <Image
+          className={styles.image}
+          src="/escrevente-vestido-como-super-heroi.png"
+          alt="Escrevente vestido como super heroi"
+          width={423}
+          height={600}
+        />
     </div>
   );
 };

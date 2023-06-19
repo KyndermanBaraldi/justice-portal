@@ -70,7 +70,7 @@ async def criar_usuario(usuario: IUser):
 
 
 @app.get("/usuario/me", response_model=IUser)
-async def get_user(token: str = Depends(security)):
+async def get_usuario(token: str = Depends(security)):
     if token.scheme != "Bearer":
         raise HTTPException(status_code=401, detail="Esquema de autenticação inválido")
     token = token.credentials
@@ -80,7 +80,7 @@ async def get_user(token: str = Depends(security)):
 
 
 @app.get("/usuario/cartorio")
-async def get_user(token: str = Depends(security)):
+async def get_cartorio(token: str = Depends(security)):
     if token.scheme != "Bearer":
         raise HTTPException(status_code=401, detail="Esquema de autenticação inválido")
     token = token.credentials

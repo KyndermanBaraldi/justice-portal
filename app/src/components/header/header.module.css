@@ -2,23 +2,24 @@
   background-color: var(--mainColor);
   width: 100%;
   color: var(--textColor);
-  height: 4rem;
-  padding: 1rem;
+  height: 70px; /* 7vh * 10px */
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 18px; /* 1.8vh * 10px */
 }
 
 .nav_links {
   color: white;
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 5px 10px; /* 0.5vh * 10px 1vh * 10px */
 }
 
 .nav_links:hover {
   background-color: #1888ff;
   border-radius: 4px;
+  padding: 5px 10px; /* 0.5vh * 10px 1vh * 10px */
   transition: all 0.2s ease-out;
 }
 
@@ -27,8 +28,7 @@
   background: none;
   border: none;
   text-decoration: none;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 5px 10px; /* 0.5vh * 10px 1vh * 10px */
 }
 
 .logout:hover {
@@ -42,19 +42,11 @@
   background: var(--secondaryColor);
   border-radius: 4px;
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 5px 10px; /* 0.5vh * 10px 1vh * 10px */
 }
 
 .cadastrar:hover {
   background-color: #1888ff;
   border-radius: 4px;
   transition: all 0.2s ease-out;
-}
-
-.containerlogin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  height: 100vh;
 }
